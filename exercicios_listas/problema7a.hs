@@ -1,8 +1,3 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use foldr" #-}
-{-# HLINT ignore "Redundant bracket" #-}
-{-# HLINT ignore "Redundant if" #-}
-
 alunos :: [(Int, String, Float)]
 alunos = [(1, "Ana", 3.4), (2, "Bob", 6.7), (3, "Tom", 7.6)]
 
