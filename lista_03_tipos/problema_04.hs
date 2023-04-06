@@ -1,8 +1,3 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use print" #-}
-{-# HLINT ignore "Redundant bracket" #-}
-{-# HLINT ignore "Use record patterns" #-}
-
 data Arvore = Null | No Int Arvore Arvore
 
 minhaArvore :: Arvore
@@ -33,7 +28,7 @@ minimoElemento (No n esq dir) =
 ocorrenciasElemento :: Arvore -> Int -> Int
 ocorrenciasElemento Null _ = 0
 ocorrenciasElemento (No n esq dir) x =
-    if (n ==x) then
+    if (n == x) then
         1 + (ocorrenciasElemento esq x) + (ocorrenciasElemento dir x)
     else
         (ocorrenciasElemento esq x) + (ocorrenciasElemento dir x)
@@ -46,10 +41,35 @@ maioresQueElemento (No n esq dir) x =
     else
         (maioresQueElemento esq x) + (maioresQueElemento dir x)
 
+mediaElementos :: Arvore -> Float
+mediaElementos Null = 0
+mediaElementos arvore = (fromIntegral soma) / (fromIntegral n)
+    where
+        (soma, n) = mediaElementosRec arvore
+
+mediaElementosRec :: Arvore -> (Int, Int)
+mediaElementosRec Null = (0, 0)
+mediaElementosRec (No n esq dir) = (n + somaValoresEsq + somaValoresDir, 1 + somaContadoresEsq + somaContadoresDir)
+    where
+        (somaValoresEsq, somaContadoresEsq) = mediaElementosRec esq
+        (somaValoresDir, somaContadoresDir) = mediaElementosRec dir
+
+quantidade :: Arvore -> Int
+quantidade Null = 0
+quantidade (No n esq dir) = 1 + (quantidade esq) + (quantidade dir)
+
+elementos :: Arvore -> [Int]
+elementos Null = []
+elementos (No n esq dir) = n : (elementos esq) ++ (elementos dir)
                                
-main = do print (somaElementos minhaArvore)
-          print (buscaElemento minhaArvore 30)
-          print (buscaElemento minhaArvore 55)
-          print (minimoElemento minhaArvore)
-          print (ocorrenciasElemento minhaArvore 55)
-          print (maioresQueElemento minhaArvore 36)
+main = do
+    print (somaElementos minhaArvore)
+    print (buscaElemento minhaArvore 30)
+    print (buscaElemento minhaArvore 55)
+    print (minimoElemento minhaArvore)
+
+    print (ocorrenciasElemento minhaArvore 55)
+    print (maioresQueElemento minhaArvore 36)
+    print (mediaElementos minhaArvore)
+    print (quantidade minhaArvore)
+    print (elementos minhaArvore)
